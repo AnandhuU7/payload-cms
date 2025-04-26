@@ -1,78 +1,39 @@
 import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
 import { getPayload } from 'payload'
 import React from 'react'
-import { fileURLToPath } from 'url'
-import axios from 'axios'
 
 import config from '@/payload.config'
 import './styles.css'
-
-type Plant = {
-  id: string;
-  name: string;
-  scientificName: string;
-  careLevel: string;
-  image: string;
-};
+import Grid from '../../components/plants'
+import SeedGrid from '../../components/SeedCard'
+import Navbar from '../../components/Navbar'
 
 export default async function HomePage() {
   const headers = await getHeaders()
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
   const { user } = await payload.auth({ headers })
-
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
-  const plants = await axios.get('/api/plants').then((res) => res.data.docs)
+  
+  const [plants, seeds] = await Promise.all([
+    payload.find({
+      collection: 'plants',
+      limit: 10
+    }),
+    payload.find({
+      collection: 'seeds',
+      limit: 10
+    })
+  ]);
 
   return (
     <div className="home">
+      <Navbar/>
       <div className="content">
-        <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg" />
-          <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
-          />
-        </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
+        <h2 className="text-2xl font-bold mb-4">Plants</h2>
+        <Grid plants={plants.docs} />
         
-        <h2>Botanical Plants</h2>
-        {plants.map((plant: Plant) => (
-          <div key={plant.id}>
-            <h3>{plant.name}</h3>
-            <p>{plant.scientificName}</p>
-            <p>Care: {plant.careLevel}</p>
-          </div>
-        ))}
-
-        <div className="links">
-          <a
-            className="admin"
-            href={payloadConfig.routes.admin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Go to admin panel
-          </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
-        </div>
-      </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
+        <h2 className="text-2xl font-bold mb-4 mt-8">Seeds</h2>
+        <SeedGrid seeds={seeds.docs} />
       </div>
     </div>
   )

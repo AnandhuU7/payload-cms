@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     plants: Plant;
+    seeds: Seed;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +80,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     plants: PlantsSelect<false> | PlantsSelect<true>;
+    seeds: SeedsSelect<false> | SeedsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -166,6 +168,20 @@ export interface Plant {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seeds".
+ */
+export interface Seed {
+  id: string;
+  name: string;
+  description?: string | null;
+  plantType?: string | null;
+  germinationTime?: number | null;
+  image?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -182,6 +198,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'plants';
         value: string | Plant;
+      } | null)
+    | ({
+        relationTo: 'seeds';
+        value: string | Seed;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -266,6 +286,19 @@ export interface PlantsSelect<T extends boolean = true> {
   name?: T;
   scientificName?: T;
   careLevel?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seeds_select".
+ */
+export interface SeedsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  plantType?: T;
+  germinationTime?: T;
   image?: T;
   updatedAt?: T;
   createdAt?: T;
