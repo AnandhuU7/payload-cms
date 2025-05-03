@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { Plant } from '@/payload-types'
+import Link from 'next/link'
+import Image from 'next/image'
 
 interface Props {
   plants: Plant[]
@@ -16,19 +18,23 @@ const Grid: React.FC<Props> = ({ plants }) => {
             key={plant.id} 
             className="flex flex-col rounded-xl overflow-hidden shadow-md transition-all duration-300 bg-white h-full w-[300px] hover:-translate-y-1 hover:shadow-lg"
           >
-            <div className="relative w-full pt-[75%] overflow-hidden">
-              {plant.image && typeof plant.image !== 'string' && (
-                <img
-                  src={plant.image.url || ''}
-                  alt={plant.image.alt || plant.name}
-                  className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement
-                    target.src = '/placeholder-plant.jpg'
-                  }}
-                />
-              )}
-            </div>
+            <Link href={`/plants/${plant.id}`} className="block h-full">
+              <div className="relative w-full pt-[75%] overflow-hidden">
+                {plant.image && typeof plant.image !== 'string' && (
+                  <Image
+                    src={plant.image.url || ''}
+                    alt={plant.image.alt || plant.name}
+                    width={300}
+                    height={225}
+                    className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement
+                      target.src = '/placeholder-plant.jpg'
+                    }}
+                  />
+                )}
+              </div>
+            </Link>
             <div className="p-6 flex flex-col flex-grow">
               <h3 className="text-xl font-semibold mb-2 text-gray-800">{plant.name}</h3>
               {plant.scientificName && (

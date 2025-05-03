@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import logoPath from "../assets/images/seed.jpg"
 
 const Navbar = () => {
@@ -23,7 +24,7 @@ const Navbar = () => {
                 id="navbar"
                 className="bg-white text-black backdrop-blur transition-all duration-300 shadow-lg h-24 hidden lg:flex sticky top-0 z-50 px-8"
             >
-                <a
+                <Link
                     href="/"
                     className="border-0 flex-shrink-0 flex items-center justify-center"
                 >
@@ -33,7 +34,7 @@ const Navbar = () => {
                         alt="Dubai Hikvision"
                         loading={"eager"}
                     />
-                </a>
+                </Link>
                 <nav className="header-links contents font-semibold text-base lg:text-lg z-50">
                     <ul className="flex items-center ml-4 xl:ml-8 mr-auto">
                         {[
@@ -43,6 +44,7 @@ const Navbar = () => {
                             { path: '/blog', name: 'Blog' },
                             { path: '/about', name: 'About' },
                             { path: '/contact', name: 'Contact' },
+                            { path: '/dvrs', name: 'Dvr'}
                         ].map((item) => (
                             <li key={item.path} className="p-3 xl:p-6 relative group">
                                 <a
@@ -109,7 +111,10 @@ const Navbar = () => {
             {/* Mobile Navbar */}
             <nav className="w-screen lg:hidden px-2 bg-white shadow-md fixed top-0 z-50 h-16 flex items-center">
                 <div className="flex justify-between items-center w-full px-3">
-                    <a href="/" className="border-0 flex-shrink-0 flex items-center">
+                    <Link
+                        href="/"
+                        className="border-0 flex-shrink-0 flex items-center"
+                    >
                         <Image
                             className="w-28 h-8 object-contain"
                             src={logoPath}
@@ -118,7 +123,7 @@ const Navbar = () => {
                             height={32}
                             priority
                         />
-                    </a>
+                    </Link>
                     <div className="lg:hidden">
                         <button
                             id="collapseBtn"

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Seed } from '@/payload-types'
+import Image from 'next/image'
 
 interface Props {
   seeds: Seed[]
@@ -17,9 +18,11 @@ const SeedGrid: React.FC<Props> = ({ seeds }) => {
             className="flex flex-col rounded-xl overflow-hidden shadow-md transition-all duration-300 bg-white h-full w-[300px] hover:-translate-y-1 hover:shadow-lg"
           >
             {seed.image && typeof seed.image !== 'string' && (
-              <img
+              <Image
                 src={seed.image.url || ''}
                 alt={seed.image.alt || seed.name}
+                width={300}
+                height={200}
                 className="w-full h-48 object-cover"
               />
             )}
