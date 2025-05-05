@@ -44,7 +44,8 @@ const Navbar = () => {
                             { path: '/blog', name: 'Blog' },
                             { path: '/about', name: 'About' },
                             { path: '/contact', name: 'Contact' },
-                            { path: '/dvrs', name: 'Dvr'}
+                            { path: '/dvrs', name: 'Dvr'},
+                            { path: '/nvrs', name: 'Nvr'}
                         ].map((item) => (
                             <li key={item.path} className="p-3 xl:p-6 relative group">
                                 <a

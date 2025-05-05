@@ -72,6 +72,7 @@ export interface Config {
     plants: Plant;
     seeds: Seed;
     dvrs: Dvr;
+    nvrs: Nvr;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -83,6 +84,7 @@ export interface Config {
     plants: PlantsSelect<false> | PlantsSelect<true>;
     seeds: SeedsSelect<false> | SeedsSelect<true>;
     dvrs: DvrsSelect<false> | DvrsSelect<true>;
+    nvrs: NvrsSelect<false> | NvrsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -222,6 +224,44 @@ export interface Dvr {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nvrs".
+ */
+export interface Nvr {
+  id: string;
+  title: string;
+  slug: string;
+  subTitle?: string | null;
+  category?: string | null;
+  imgCard?: (string | null) | Media;
+  imgAlt?: string | null;
+  thumbnails?:
+    | {
+        thumbnail?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  features?:
+    | {
+        feature?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  rating?: number | null;
+  reviewCount?: number | null;
+  specifications?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -246,6 +286,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'dvrs';
         value: string | Dvr;
+      } | null)
+    | ({
+        relationTo: 'nvrs';
+        value: string | Nvr;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -352,6 +396,35 @@ export interface SeedsSelect<T extends boolean = true> {
  * via the `definition` "dvrs_select".
  */
 export interface DvrsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  subTitle?: T;
+  category?: T;
+  imgCard?: T;
+  imgAlt?: T;
+  thumbnails?:
+    | T
+    | {
+        thumbnail?: T;
+        id?: T;
+      };
+  features?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  rating?: T;
+  reviewCount?: T;
+  specifications?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nvrs_select".
+ */
+export interface NvrsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   subTitle?: T;
