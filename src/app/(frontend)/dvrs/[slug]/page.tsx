@@ -1,38 +1,7 @@
-import { headers as getHeaders } from 'next/headers'
 import { getPayload } from 'payload'
-import React from 'react'
-import config from '@/payload.config'
 import { notFound } from 'next/navigation'
-import ProductDetails from '@/components/ProductDetails'
-
-interface Media {
-  url: string
-  alt?: string
-  width?: number
-  height?: number
-}
-
-interface DVRData {
-  id: string
-  slug: string
-  title: string
-  subTitle?: string
-  imgCard?: Media | string
-  imgAlt?: string
-  thumbnails?: Array<{ thumbnail?: Media | string }>
-  features?: Array<{ feature: string }>
-  rating?: number
-  reviewCount?: number
-}
-
-interface Props {
-  params: Promise<{
-    slug: string
-  }>
-  searchParams?: Promise<{
-    [key: string]: string | string[]
-  }>
-}
+import config from '@/payload.config'
+import ProductDetails, { type ProductData } from '@/components/ProductDetails'
 
 export async function generateStaticParams() {
   const payloadConfig = await config
@@ -48,22 +17,49 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function DVRPage({ params }: { params: { slug: string } }) {
+interface PageParams {
+  params: {
+    slug: string
+  }
+}
+export default async function DVRPage({ params }: PageParams) {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
-  const { docs: [dvrData] } = await payload.find({
+  const { docs } = await payload.find({
     collection: 'dvrs',
     where: {
       slug: {
         equals: params.slug
       }
-    }
+    },
+    limit: 1
   })
 
-  if (!dvrData) {
-    return notFound()
+  if (!docs.length) return notFound()
+
+  const dvrData = docs[0]
+  
+  const product: ProductData = {
+    id: dvrData.id,
+    title: dvrData.title,
+    slug: dvrData.slug,
+    subTitle: dvrData.subTitle || null,
+    category: dvrData.category || null,
+    features: dvrData.features || null,
+    imgAlt: dvrData.imgAlt || '',
+    imgCard: typeof dvrData.imgCard === 'string' 
+      ? dvrData.imgCard 
+      : { url: dvrData.imgCard?.url || '' },
+    thumbnails: (dvrData.thumbnails || []).map(thumb => ({
+      thumbnail: typeof thumb?.thumbnail === 'string' 
+        ? thumb.thumbnail 
+        : { url: thumb?.thumbnail?.url || '' }
+    })),
+    specifications: dvrData.specifications || [],
+    rating: dvrData.rating || 0,
+    reviewCount: dvrData.reviewCount || 0
   }
 
-  return <ProductDetails product={dvrData} />
+  return <ProductDetails product={product} />
 }
