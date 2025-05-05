@@ -212,12 +212,10 @@ export interface Dvr {
   reviewCount?: number | null;
   specifications?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        key: string;
+        value: string;
+        id?: string | null;
+      }[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -416,7 +414,13 @@ export interface DvrsSelect<T extends boolean = true> {
       };
   rating?: T;
   reviewCount?: T;
-  specifications?: T;
+  specifications?:
+    | T
+    | {
+        key?: T;
+        value?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

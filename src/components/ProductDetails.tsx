@@ -70,6 +70,21 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
               </div>
             )}
 
+            {/* Specifications */}
+            {product.specifications && product.specifications.length > 0 && (
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Specifications</h2>
+                <ul className="space-y-3">
+                  {product.specifications.map((spec, index) => (
+                    <li key={index} className="grid grid-cols-2 gap-4">
+                      <span className="font-medium text-gray-600">{spec.key}</span>
+                      <span>{spec.value}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {/* Rating */}
             {product.rating && (
               <div className="flex items-center">
