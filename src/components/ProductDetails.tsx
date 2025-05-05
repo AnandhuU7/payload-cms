@@ -24,7 +24,15 @@ export type ProductData = {
   imgAlt?: string
   imgCard: { url: string } | string
   thumbnails?: Thumbnail[]
-  specifications?: Specification[] | Record<string, Record<string, string | Record<string, string>>>
+  specifications?: Array<{
+    category: string
+    items?: Array<{
+      key: string
+      value: string
+      id?: string | null
+    }> | null
+    id?: string | null
+  }> | null
   rating?: number
   reviewCount?: number
   slug: string
@@ -107,16 +115,12 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
   const specificationItems = (() => {
     if (!specifications) return []
     
-    if (Array.isArray(specifications)) {
-      return [{ category: 'Specifications', specs: specifications }]
-    }
-    
-    return Object.entries(specifications).map(([category, specs]) => ({
-      category,
-      specs: Object.entries(specs).map(([key, value]) => ({
-        key: key.replace(/_/g, ' '),
-        value
-      }))
+    return specifications.map(specGroup => ({
+      category: specGroup.category,
+      specs: specGroup.items?.map(item => ({
+        key: item.key,
+        value: item.value
+      })) || []
     }))
   })()
 
@@ -319,16 +323,17 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
                                 {typeof spec.key === 'string' ? spec.key : 'Property'}
                               </td>
                               <td className="py-3 pl-4 text-gray-800 text-sm">
-                                {typeof spec.value === 'object' 
-                                  ? Object.entries(spec.value).map(([k, v], i) => (
-                                      <div key={`spec-nested-${i}`} className="mb-1.5">
-                                        <strong className="text-gray-700">
-                                          {k.replace(/_/g, " ")}:
-                                        </strong>{" "}
-                                        {v}
+                                {typeof spec.value === 'string' 
+                                  ? spec.value.split('\n').map((val, i) => (
+                                      <div key={i} className={i > 0 ? 'mt-1 pl-4' : ''}>
+                                        {val.split(';').map((v, j) => (
+                                          <div key={j} className={j > 0 ? 'mt-1' : ''}>
+                                            {v.trim()}
+                                          </div>
+                                        ))}
                                       </div>
                                     ))
-                                  : spec.value}
+                                  : JSON.stringify(spec.value)}
                               </td>
                             </tr>
                           ))}

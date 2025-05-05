@@ -70,14 +70,15 @@ const DVRs: CollectionConfig = {
       type: 'array',
       fields: [
         {
-          name: 'key',
+          name: 'category',
           type: 'text',
-          required: true
+          required: true,
+          label: 'Section Title (e.g. Camera, Lens)'
         },
         {
-          name: 'value',
-          type: 'text',
-          required: true
+          name: 'content',
+          type: 'textarea',
+          label: 'Detailed Specifications'
         }
       ]
     }

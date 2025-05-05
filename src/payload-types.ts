@@ -212,8 +212,8 @@ export interface Dvr {
   reviewCount?: number | null;
   specifications?:
     | {
-        key: string;
-        value: string;
+        category: string;
+        content?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -417,8 +417,8 @@ export interface DvrsSelect<T extends boolean = true> {
   specifications?:
     | T
     | {
-        key?: T;
-        value?: T;
+        category?: T;
+        content?: T;
         id?: T;
       };
   updatedAt?: T;
