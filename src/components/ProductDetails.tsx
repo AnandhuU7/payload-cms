@@ -45,7 +45,7 @@ interface Props {
 const ProductDetails: React.FC<Props> = ({ product }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [openSpecCategories, setOpenSpecCategories] = useState<Record<string, boolean>>({})
-  
+
   const {
     title,
     subTitle,
@@ -59,8 +59,8 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
     reviewCount
   } = product;
 
-  const formattedFeatures = features 
-    ? features.map(f => f?.feature).filter(Boolean) as string[] 
+  const formattedFeatures = features
+    ? features.map(f => f?.feature).filter(Boolean) as string[]
     : []
 
   const formattedThumbnails = thumbnails?.map(thumb => {
@@ -71,13 +71,13 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
   }).filter(t => t.src) || []
 
   const handlePrevImage = () => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       (prev - 1 + formattedThumbnails.length) % formattedThumbnails.length
     )
   }
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       (prev + 1) % formattedThumbnails.length
     )
   }
@@ -114,7 +114,7 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
 
   const specificationItems = (() => {
     if (!specifications) return []
-    
+
     return specifications.map(specGroup => ({
       category: specGroup.category,
       specs: specGroup.items?.map(item => ({
@@ -124,7 +124,7 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
     }))
   })()
 
-  const mainImageUrl = formattedThumbnails.length > 0 
+  const mainImageUrl = formattedThumbnails.length > 0
     ? formattedThumbnails[currentImageIndex]?.src
     : getImageUrl(imgCard)
 
@@ -152,8 +152,8 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
         <div className="product-content flex flex-col lg:flex-row gap-10 sm:gap-16">
           {/* Left: Product Images */}
           <div className="product-images w-full lg:w-5/12">
-            <div className="main-image-container mb-6 sm:mb-8 relative group overflow-hidden rounded-3xl shadow-lg border-2 border-red-100">
-              <div className="relative w-full h-72 md:h-96 bg-white p-4 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-red-50 group-hover:to-white">
+            <div className="main-image-container mb-6 sm:mb-8 relative group overflow-hidden rounded-3xl shadow-lg border border-gray-200">
+              <div className="relative w-full h-72 md:h-96 bg-white p-4">
                 <Image
                   src={mainImageUrl || '/api/placeholder/400/320'}
                   alt={imgAlt || title}
@@ -161,8 +161,11 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
                   className="object-contain transition-all duration-500 group-hover:scale-[1.03]"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              >
               </div>
+
               {formattedThumbnails.length > 1 && (
                 <>
                   <button
@@ -212,9 +215,8 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
                   <div
                     key={`thumb-${index}`}
                     onClick={() => handleThumbnailClick(index)}
-                    className={`thumbnail-item ${
-                      index === currentImageIndex ? "ring-2 ring-red-500 scale-105" : "ring-1 ring-red-100"
-                    } rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:ring-2 hover:ring-red-400 hover:-translate-y-1 hover:shadow-md group`}
+                    className={`thumbnail-item ${index === currentImageIndex ? "ring-2 ring-red-500 scale-105" : "ring-1 ring-red-100"
+                      } rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:ring-2 hover:ring-red-400 hover:-translate-y-1 hover:shadow-md group`}
                   >
                     <div className="relative w-full aspect-square bg-gradient-to-br from-red-50 to-white">
                       <Image
@@ -238,16 +240,17 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
             </h2>
 
             {/* Features List */}
-            <div className="features-grid grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+            <div className="features-grid grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
               {formattedFeatures.map((feature, index) => (
-                <div 
+                <div
                   key={`feature-${index}`}
-                  className="feature-card bg-gradient-to-br from-white to-red-50 p-4 sm:p-5 rounded-xl border border-red-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-red-200 group"
+                  className="feature-card bg-gradient-to-br from-white to-red-50  p-3 sm:p-4 rounded-xl border border-red-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-red-200 group"
                   style={{ opacity: 0 }}
                 >
-                  <div className="feature-number bg-gradient-to-r from-red-500 to-black text-white font-bold rounded-full w-7 h-7 flex items-center justify-center mb-3 group-hover:shadow-md transition-all duration-300">
+                  <div className="feature-number bg-gradient-to-r from-red-500 to-black text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mb-2 group-hover:shadow-md transition-all duration-300">
                     {index + 1}
                   </div>
+      
                   <p className="text-gray-700 text-sm sm:text-base font-medium leading-relaxed group-hover:text-gray-900 transition-colors">
                     {feature}
                   </p>
@@ -300,18 +303,16 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
                     {specGroup.category}
                   </h3>
                   <ChevronDown
-                    className={`w-5 h-5 text-red-500 transition-transform duration-300 ${
-                      openSpecCategories[specGroup.category] ? 'rotate-180' : ''
-                    }`}
+                    className={`w-5 h-5 text-red-500 transition-transform duration-300 ${openSpecCategories[specGroup.category] ? 'rotate-180' : ''
+                      }`}
                   />
                 </button>
 
                 <div
-                  className={`spec-content overflow-hidden transition-all duration-300 ease-in-out ${
-                    openSpecCategories[specGroup.category] 
-                      ? 'max-h-[1000px] opacity-100 mt-0' 
+                  className={`spec-content overflow-hidden transition-all duration-300 ease-in-out ${openSpecCategories[specGroup.category]
+                      ? 'max-h-[1000px] opacity-100 mt-0'
                       : 'max-h-0 opacity-0'
-                  }`}
+                    }`}
                 >
                   <div className="bg-gradient-to-br from-white to-red-50 p-6 pt-4 rounded-b-xl border-x border-b border-red-100 shadow-inner">
                     <div className="overflow-x-auto">
@@ -323,16 +324,16 @@ const ProductDetails: React.FC<Props> = ({ product }) => {
                                 {typeof spec.key === 'string' ? spec.key : 'Property'}
                               </td>
                               <td className="py-3 pl-4 text-gray-800 text-sm">
-                                {typeof spec.value === 'string' 
+                                {typeof spec.value === 'string'
                                   ? spec.value.split('\n').map((val, i) => (
-                                      <div key={i} className={i > 0 ? 'mt-1 pl-4' : ''}>
-                                        {val.split(';').map((v, j) => (
-                                          <div key={j} className={j > 0 ? 'mt-1' : ''}>
-                                            {v.trim()}
-                                          </div>
-                                        ))}
-                                      </div>
-                                    ))
+                                    <div key={i} className={i > 0 ? 'mt-1 pl-4' : ''}>
+                                      {val.split(';').map((v, j) => (
+                                        <div key={j} className={j > 0 ? 'mt-1' : ''}>
+                                          {v.trim()}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  ))
                                   : JSON.stringify(spec.value)}
                               </td>
                             </tr>
