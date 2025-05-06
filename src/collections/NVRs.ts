@@ -67,7 +67,20 @@ const NVRs: CollectionConfig = {
     },
     {
       name: 'specifications',
-      type: 'json',
+      type: 'array',
+      fields: [
+        {
+          name: 'category',
+          type: 'text',
+          required: true,
+          label: 'Section Title (e.g. Camera, Lens)'
+        },
+        {
+          name: 'content',
+          type: 'textarea',
+          label: 'Detailed Specifications'
+        }
+      ]
     }
   ],
 };

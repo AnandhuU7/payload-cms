@@ -248,12 +248,10 @@ export interface Nvr {
   reviewCount?: number | null;
   specifications?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        category: string;
+        content?: string | null;
+        id?: string | null;
+      }[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -449,7 +447,13 @@ export interface NvrsSelect<T extends boolean = true> {
       };
   rating?: T;
   reviewCount?: T;
-  specifications?: T;
+  specifications?:
+    | T
+    | {
+        category?: T;
+        content?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

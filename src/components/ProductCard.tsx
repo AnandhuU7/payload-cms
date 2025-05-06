@@ -16,11 +16,11 @@ const ProductCard: React.FC<Props> = ({ product, basePath }) => {
   return (
     <div className="group">
       <div
-    className="product-card bg-white rounded-lg overflow-hidden shadow-lg group-hover:shadow-2xl transform transition-all duration-300 border-2 border-gray-100 hover:border-gray-300 group-hover:-translate-y-2"
-  >
+        className="product-card bg-white rounded-lg overflow-hidden shadow-lg group-hover:shadow-2xl transform transition-all duration-300 border-2 border-gray-100 hover:border-red-300 group-hover:-translate-y-2"
+      >
         <Link href={`/${basePath}/${product.slug}`} className="block h-full">
           <div className="relative overflow-hidden">
-          <div className="h-64 bg-white flex items-center justify-center p-4 relative">
+            <div className="h-64 bg-white flex items-center justify-center p-4 relative">
               {product.imgCard && typeof product.imgCard !== 'string' && (
                 <Image
                   src={product.imgCard.url || ''}
@@ -30,7 +30,7 @@ const ProductCard: React.FC<Props> = ({ product, basePath }) => {
                 />
               )}
               {isNew && (
-                <div className="absolute top-2 right-2 bg-[#32869f] text-white text-xs font-bold px-3 py-1 rounded-md shadow-md">
+                <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-md shadow-md">
                   NEW
                 </div>
               )}
@@ -38,11 +38,11 @@ const ProductCard: React.FC<Props> = ({ product, basePath }) => {
           </div>
 
           <div className="px-4 py-3 flex-grow">
-            <h3 className="product-title font-bold text-lg mb-1 text-gray-800 group-hover:text-[#32869f] transition-colors duration-300 line-clamp-2">
+            <h3 className="product-title font-bold text-lg mb-1 text-black group-hover:text-red-600 transition-colors duration-300 line-clamp-2">
               {product.title}
             </h3>
             {product.subTitle && (
-              <p className="text-xs text-gray-600 mb-1 line-clamp-1">{product.subTitle}</p>
+              <p className="text-xs text-gray-700 mb-1 line-clamp-1">{product.subTitle}</p>
             )}
             {product.rating && (
               <div className="flex items-center mt-1">
@@ -58,7 +58,7 @@ const ProductCard: React.FC<Props> = ({ product, basePath }) => {
                         key={i}
                         className={`text-sm ${
                           isFullStar
-                            ? "text-yellow-500"
+                            ? "text-red-500"
                             : isHalfStar
                               ? "text-gray-300 relative"
                               : "text-gray-300"
@@ -68,7 +68,7 @@ const ProductCard: React.FC<Props> = ({ product, basePath }) => {
                           <span className="relative">
                             ★
                             <span
-                              className="absolute top-0 left-0 overflow-hidden text-yellow-500"
+                              className="absolute top-0 left-0 overflow-hidden text-red-500"
                               style={{ width: '50%' }}
                             >
                               ★
@@ -81,7 +81,7 @@ const ProductCard: React.FC<Props> = ({ product, basePath }) => {
                     )
                   })}
                 </div>
-                <span className="ml-1 text-gray-600 text-xs">
+                <span className="ml-1 text-gray-700 text-xs">
                   ({product.reviewCount})
                 </span>
               </div>
@@ -92,7 +92,7 @@ const ProductCard: React.FC<Props> = ({ product, basePath }) => {
         <div className="mt-auto px-4 py-3 border-t border-gray-100">
           <Link
             href={`/${basePath}/${product.slug}`}
-            className="bg-[#32869f] text-white font-medium rounded-full px-4 py-1 flex items-center justify-center transition-all duration-300 hover:font-semibold hover:translate-x-1 w-full text-sm"
+            className="bg-black text-white font-medium rounded-full px-4 py-1 flex items-center justify-center transition-all duration-300 hover:bg-red-700 hover:font-semibold hover:translate-x-1 w-full text-sm"
           >
             View Details
             <svg
