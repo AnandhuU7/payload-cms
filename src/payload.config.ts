@@ -13,6 +13,7 @@ import Plants from './collections/Plants'
 import { Seed } from './collections/Seeds'
 import DVRs from './collections/DVRs'
 import NVRs from './collections/NVRs'
+import Products from './collections/Products'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +25,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media,Plants,Seed,DVRs,NVRs],
+  collections: [Users, Media,Plants,Seed,DVRs,NVRs,Products],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

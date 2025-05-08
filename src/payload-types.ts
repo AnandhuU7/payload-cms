@@ -73,6 +73,7 @@ export interface Config {
     seeds: Seed;
     dvrs: Dvr;
     nvrs: Nvr;
+    products: Product;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -85,6 +86,7 @@ export interface Config {
     seeds: SeedsSelect<false> | SeedsSelect<true>;
     dvrs: DvrsSelect<false> | DvrsSelect<true>;
     nvrs: NvrsSelect<false> | NvrsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -258,6 +260,68 @@ export interface Nvr {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: string;
+  title: string;
+  slug: string;
+  subTitle?: string | null;
+  category: 'Network Products' | 'Turbo' | 'Access Control' | 'Display';
+  subCategory?:
+    | (
+        | 'Network Cameras'
+        | 'PTZ Cameras'
+        | 'Network Video Recorder'
+        | 'Server'
+        | 'Explosion-Proof and Anti-Corrosion Series'
+        | 'Storage'
+        | 'Kits'
+      )
+    | null;
+  ptzFields?: ('x' | 'y' | 'z' | 'q.w') | null;
+  nvrFields?: ('a' | 'b' | 'c' | 'd' | 'e.w' | 'x' | 'd2') | null;
+  series?:
+    | (
+        | 'Pro Series (All)'
+        | 'Ultra Series (SmartIP)'
+        | 'Value Series'
+        | 'PanoVu Cameras'
+        | 'Wi-Fi Series'
+        | 'Special Series'
+        | 'Solar-powered Series'
+        | 'PT Series'
+        | 'DeepinView Series'
+      )
+    | null;
+  imgCard?: (string | null) | Media;
+  imgAlt?: string | null;
+  thumbnails?:
+    | {
+        thumbnail?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  features?:
+    | {
+        feature?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  rating?: number | null;
+  reviewCount?: number | null;
+  specifications?:
+    | {
+        category: string;
+        content?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -286,6 +350,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'nvrs';
         value: string | Nvr;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: string | Product;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -431,6 +499,45 @@ export interface NvrsSelect<T extends boolean = true> {
   slug?: T;
   subTitle?: T;
   category?: T;
+  imgCard?: T;
+  imgAlt?: T;
+  thumbnails?:
+    | T
+    | {
+        thumbnail?: T;
+        id?: T;
+      };
+  features?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  rating?: T;
+  reviewCount?: T;
+  specifications?:
+    | T
+    | {
+        category?: T;
+        content?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  subTitle?: T;
+  category?: T;
+  subCategory?: T;
+  ptzFields?: T;
+  nvrFields?: T;
+  series?: T;
   imgCard?: T;
   imgAlt?: T;
   thumbnails?:
