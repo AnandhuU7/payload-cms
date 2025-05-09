@@ -7,7 +7,17 @@ export const Users: CollectionConfig = {
   },
   auth: true,
   fields: [
-    // Email added by default
-    // Add more fields as needed
+    {
+      name: 'email',
+      type: 'email',
+      required: true,
+      unique: true,
+      validate: (val) => {
+        if (!val || !val.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+          return 'Please enter a valid email address'
+        }
+        return true
+      }
+    },
   ],
 }

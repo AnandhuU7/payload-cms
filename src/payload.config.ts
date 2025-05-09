@@ -6,6 +6,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -39,4 +40,16 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
+  email: nodemailerAdapter({
+    defaultFromAddress: 'admin@gmail.com',
+    defaultFromName: 'Lovosis',
+    transportOptions: {
+      host: 'smtp.gmail.com',
+      port: 587,
+      auth: {
+        user: 'admin@gmail.com',
+        pass: 'admin',
+      },
+    },
+  }),
 })
